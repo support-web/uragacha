@@ -1,0 +1,486 @@
+/* リセットと基本スタイル */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #6b4fa2;
+    --secondary-color: #9b7fd1;
+    --accent-color: #ffd700;
+    --bg-gradient-start: #1a0a2e;
+    --bg-gradient-end: #2d1b4e;
+    --text-color: #ffffff;
+    --text-muted: #c9b8e0;
+    --card-bg: rgba(255, 255, 255, 0.1);
+}
+
+body {
+    font-family: 'Zen Maru Gothic', 'Noto Sans JP', sans-serif;
+    background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+    min-height: 100vh;
+    color: var(--text-color);
+    overflow-x: hidden;
+}
+
+/* 背景の星 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 90px 40px, #ffffff, transparent),
+        radial-gradient(2px 2px at 130px 80px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 160px 120px, #ffffff, transparent),
+        radial-gradient(2px 2px at 200px 50px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(1px 1px at 250px 160px, #ffffff, transparent),
+        radial-gradient(2px 2px at 300px 100px, rgba(255,255,255,0.5), transparent);
+    background-size: 350px 200px;
+    animation: twinkle 5s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ヘッダー */
+.header {
+    text-align: center;
+    padding: 30px 0;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(45deg, var(--accent-color), #fff5cc, var(--accent-color));
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: shimmer 3s ease-in-out infinite;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+@keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+.subtitle {
+    margin-top: 10px;
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* メインコンテンツ */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+}
+
+/* ガチャマシン */
+.gacha-machine {
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.machine-top {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.machine-globe {
+    width: 220px;
+    height: 220px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
+    border-radius: 50%;
+    border: 8px solid #8b6fc0;
+    box-shadow:
+        inset 0 -20px 40px rgba(0,0,0,0.3),
+        0 10px 30px rgba(0,0,0,0.4),
+        0 0 60px rgba(139, 111, 192, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.balls-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.ball {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    box-shadow:
+        inset -5px -5px 10px rgba(0,0,0,0.3),
+        inset 5px 5px 10px rgba(255,255,255,0.3);
+}
+
+.ball-1 { background: linear-gradient(135deg, #ff6b6b, #c92a2a); top: 20%; left: 25%; }
+.ball-2 { background: linear-gradient(135deg, #ffd93d, #ff9500); top: 35%; left: 55%; }
+.ball-3 { background: linear-gradient(135deg, #6bcb77, #2d8f3c); top: 55%; left: 20%; }
+.ball-4 { background: linear-gradient(135deg, #4d96ff, #2563eb); top: 60%; left: 50%; }
+.ball-5 { background: linear-gradient(135deg, #ff6bcb, #c92a8a); top: 25%; left: 65%; }
+.ball-6 { background: linear-gradient(135deg, #a855f7, #7c3aed); top: 70%; left: 35%; }
+.ball-7 { background: linear-gradient(135deg, #14b8a6, #0d9488); top: 45%; left: 35%; }
+.ball-8 { background: linear-gradient(135deg, #f97316, #ea580c); top: 50%; left: 65%; }
+
+.gacha-machine.spinning .balls-container {
+    animation: shake 0.5s ease-in-out infinite;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    25% { transform: translateX(-5px) rotate(-5deg); }
+    75% { transform: translateX(5px) rotate(5deg); }
+}
+
+.gacha-machine.spinning .ball {
+    animation: bounce 0.3s ease-in-out infinite;
+}
+
+.ball-1 { animation-delay: 0s; }
+.ball-2 { animation-delay: 0.05s; }
+.ball-3 { animation-delay: 0.1s; }
+.ball-4 { animation-delay: 0.15s; }
+.ball-5 { animation-delay: 0.2s; }
+.ball-6 { animation-delay: 0.25s; }
+.ball-7 { animation-delay: 0.3s; }
+.ball-8 { animation-delay: 0.35s; }
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+.machine-body {
+    width: 180px;
+    height: 60px;
+    background: linear-gradient(180deg, #5a4a8a, #3d2d6b);
+    border-radius: 0 0 20px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid #8b6fc0;
+    border-top: none;
+    margin-top: -10px;
+}
+
+.gacha-button {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #ff4757, #c92a2a);
+    border: 4px solid #fff;
+    cursor: pointer;
+    box-shadow:
+        0 6px 20px rgba(0,0,0,0.4),
+        inset 0 -4px 10px rgba(0,0,0,0.3),
+        inset 0 4px 10px rgba(255,255,255,0.3);
+    transition: all 0.2s ease;
+    position: relative;
+    margin-top: -20px;
+}
+
+.gacha-button:hover {
+    transform: scale(1.05);
+    box-shadow:
+        0 8px 25px rgba(255, 71, 87, 0.5),
+        inset 0 -4px 10px rgba(0,0,0,0.3),
+        inset 0 4px 10px rgba(255,255,255,0.3);
+}
+
+.gacha-button:active {
+    transform: scale(0.95);
+}
+
+.gacha-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.button-text {
+    color: white;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.machine-output {
+    width: 80px;
+    height: 50px;
+    background: linear-gradient(180deg, #2d1b4e, #1a0a2e);
+    border-radius: 0 0 40px 40px;
+    border: 4px solid #8b6fc0;
+    border-top: none;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 5px;
+    position: relative;
+}
+
+.output-ball {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.output-ball.show {
+    animation: dropBall 0.5s ease-out forwards;
+}
+
+@keyframes dropBall {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    60% {
+        opacity: 1;
+        transform: translateY(5px);
+    }
+    80% {
+        transform: translateY(-3px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 結果表示エリア */
+.result-area {
+    width: 100%;
+    max-width: 400px;
+    display: none;
+}
+
+.result-area.show {
+    display: block;
+    animation: fadeInUp 0.5s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.result-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.result-rank {
+    display: inline-block;
+    padding: 10px 30px;
+    border-radius: 30px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.result-rank.daikichi {
+    background: linear-gradient(135deg, #ffd700, #ffed4a);
+    color: #8b4513;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+}
+
+.result-rank.chuukichi {
+    background: linear-gradient(135deg, #ff9500, #ffb347);
+    color: #8b4513;
+}
+
+.result-rank.kichi {
+    background: linear-gradient(135deg, #6bcb77, #90EE90);
+    color: #2d5a30;
+}
+
+.result-rank.suekichi {
+    background: linear-gradient(135deg, #87CEEB, #b0e0e6);
+    color: #2c5aa0;
+}
+
+.result-rank.kyou {
+    background: linear-gradient(135deg, #dda0dd, #e6b8e6);
+    color: #8b008b;
+}
+
+.result-rank.daikyou {
+    background: linear-gradient(135deg, #b0b0b0, #d3d3d3);
+    color: #4a4a4a;
+}
+
+.result-body {
+    text-align: center;
+}
+
+.fortune-type {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: var(--accent-color);
+}
+
+.fortune-stars {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    letter-spacing: 5px;
+}
+
+.fortune-message {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    margin-bottom: 25px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.fortune-details {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.detail-label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.detail-value {
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.retry-button {
+    width: 100%;
+    margin-top: 25px;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.retry-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(107, 79, 162, 0.4);
+}
+
+/* フッター */
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 480px) {
+    .title {
+        font-size: 2rem;
+    }
+
+    .machine-globe {
+        width: 180px;
+        height: 180px;
+    }
+
+    .ball {
+        width: 28px;
+        height: 28px;
+    }
+
+    .result-card {
+        padding: 20px;
+    }
+
+    .fortune-message {
+        font-size: 0.9rem;
+    }
+}
+
+/* 特殊演出: 大吉 */
+.result-area.daikichi-effect::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(255, 215, 0, 0.2), transparent 70%);
+    pointer-events: none;
+    animation: glow 2s ease-in-out infinite;
+    z-index: -1;
+}
+
+@keyframes glow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
